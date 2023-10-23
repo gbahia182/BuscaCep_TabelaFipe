@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+<title>Tabela FIPE</title>
+  
+
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js">
+
+</head>
+<body>
+  
+<div class="container">
+     
+<h1>Calcular cotação de veiculos na tabela FIPE</h1>
+    
+<form id="codForm">
+        
+<div class="form-group">
+         
+<label for="cod">Digite seu código FIPE:</label>
+      
+       
+<input type="text" class="form-control" id="cod" required> 
+</div>
+
+</div>
+      
+<br>   
+<button type="submit" class="btn btn-primary">Buscar</button>
+    
+</form>
+    
+   
+<div id="resultado" style="display: none;">
+      
+<br>   
+<h2>Resultado:</h2>
+         
+<p><strong>Valor:</strong> <span id="valor"></span></p>
+      
+<p><strong>Marca:</strong> <span id="marca"></span></p>
+ 
+<p><strong>Ano:</strong> <span id="anoModelo"></span></p>
+   
+<p><strong>Modelo:</strong> <span id="modelo"></span></p>
+  
+</div>
+</div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  
+<script>
+
+  $(document).ready(function() {
+      $('#codForm').submit(function(event) {
+        event.preventDefault();
+
+        var cod = $('#cod').val();
+
+        $.ajax({
+          url: 'https://brasilapi.com.br/api/fipe/preco/v1/' + cod.replace(/\D/g, ''),
+          method: 'GET',
+          success: function(data) { 
+
+        $('#valor').text(data[0].valor);
+        $('#marca').text(data[0].marca);
+        $('#anoModelo').text(data[0].anoModelo);
+        $('#modelo').text(data[0].modelo);
+            
+        $('#resultado').show();
+          },
+          error: function() {
+             $('#resultado').html('<p>Erro ao buscar o código. Verifique o código FIPE e tente novamente.</p>').show();
+          }
+        });
+      });
+    });
+  </script>
+  <br> <br>
+  <a href="index.html">Clique aqui</a> para retornar a página do buscador de CEP.
+</body>
+
+</html>

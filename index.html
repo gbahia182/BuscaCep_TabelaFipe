@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+<title>Buscador de CEP e Tabela FIPE</title>
+  
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js">
+
+</head>
+<body>
+  
+<div class="container">
+    
+<h1>Buscador de CEP</h1>
+    
+<form id="cepForm">
+      
+     
+<div class="form-group">
+      
+       
+<label for="cep">CEP:</label>
+     
+<input type="text" class="form-control" id="cep" required>
+      
+</div>
+</div>
+      
+<br>   
+<button type="submit" class="btn btn-primary">Buscar endereço</button>
+    
+</form>
+      
+<div id="resultado" style="display: none;">
+      
+<br>   
+<h2>Resultado:</h2>
+         
+<p><strong>Estado:</strong> <span id="estado"></span></p>
+   
+<p><strong>Cidade:</strong> <span id="cidade"></span></p>
+   
+<p><strong>Bairro:</strong> <span id="bairro"></span></p>
+    
+<p><strong>Rua:</strong> <span id="rua"></span></p>
+  
+</div>
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  
+<script>
+
+  $(document).ready(function() {
+    $('#cepForm').submit(function(event) {
+      event.preventDefault();
+
+      var cep = $('#cep').val();
+
+      $.ajax({
+        url: 'https://brasilapi.com.br/api/cep/v2/' + cep.replace(/\D/g, ''),
+        method: 'GET',
+        success: function(data) {
+
+          $('#estado').text(data.state);
+          $('#cidade').text(data.city);
+           $('#bairro').text(data.neighborhood);
+          $('#rua').text(data.street);
+
+          $('#resultado').show();
+          },
+        error: function() {
+          $('#resultado').html('<p>Erro ao buscar o endereço. Verifique o CEP e tente novamente.</p>').show();
+          }
+        });
+      });
+    });
+  </script>
+<br><br>
+  <a href="tabelafipe.html">Clique aqui</a> para consultar o valor de veiculos da Tabela FIPE
+</body>
+
+
+</html>
